@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+    <!--리액트 사용 준비-->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="timer.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      /*countUp 메소드보다 함수로 만들기 */
+      function countUp(count, num) {
+        return count + num;
+      }
+
+      //애플리케이션 클래스 생성하기
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            text: "Start",
+            count: 0,
+          };
+          this.timer = null;
+          this.handleClick = this.handleClick.bind(this);
+        }
+
+        /*화면에 보일 타이머와 글자*/
+        render() {
+          return (
+            <div className="timer">
+              <h1>{this.state.count} seconds</h1>
+
+              <label htmlFor="timerCheck">
+                <input
+                  type="checkbox"
+                  id="timerCheck"
+                  onClick={this.handleClick}
+                />
+                Timer {this.state.text}
+              </label>
+            </div>
+          );
+        }
+
+        /*타이머가 활성화 되었을 시에 count 속성 값을 1 만큼 올림*/
+        handleClick = (event) => {
+          // 고객이 Start를 눌렀을때
+          if (event.target.checked) {
+            // setState를 활용하여 글자가 적힌 속성값을 변경 시킴
+            // 될 수 있으면 속성값을 직접적으로 바꾸지 말고 아래와 같이 간접적으로 수정 하는 것이 좋음
+            this.setState({
+              text: "Stop",
+            });
+            //setInterval을 활용하여 count 값 바꾸기
+            // countUp 함수를 활용하게 함
+            this.timer = setInterval(() => {
+              this.setState((prevState) => ({
+                count: countUp(prevState.count, 1),
+              }));
+            }, 50);
+          } else {
+            //Stop을 눌렀을 때
+            // 카운트 를 멈춤
+            clearInterval(this.timer);
+            //텍스트 글자를 Stop에서 Start로 바꿈
+            this.setState({
+              text: "Start",
+            });
+          }
+        };
+      }
+
+      //출력하기
+      const container = document.getElementById("root");
+      ReactDOM.render(<App />, container);
+    </script>
+  </body>
+</html>
