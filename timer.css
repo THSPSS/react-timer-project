@@ -1,0 +1,18 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+#root {
+  display: grid;
+  height: 90vh;
+  place-items: center;
+  font-family: "Pretendard";
+  font-size: 20px;
+}
+#root .timer {
+  text-align: center;
+}
+#root .timer label {
+  cursor: pointer;
+}
+#root .timer #timerCheck {
+  display: none;
+  border: 1px solid black;
+}/*# sourceMappingURL=timer.css.map */

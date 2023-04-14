@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document</title>
+    <!--리액트 사용 준비-->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="timer.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      //애플리케이션 클래스 생성하기
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            inputText: "Start",
+            count: 0,
+          };
+          this.timer = null;
+          this.handleClick = this.handleClick.bind(this);
+        }
+
+        /*화면에 보일 타이머와 글자*/
+        render() {
+          return (
+            <div className="timer">
+              <h1>{this.state.count} seconds</h1>
+
+              <label htmlFor="timerCheck">
+                <input
+                  type="checkbox"
+                  id="timerCheck"
+                  onClick={this.handleClick}
+                />
+                Timer {this.state.inputText}
+              </label>
+            </div>
+          );
+        }
+
+        /*타이머가 활성화 되었을 시에 count 속성 값을 1 만큼 올림*/
+        handleClick(event) {
+          if (event.target.checked) {
+            this.state.inputText = "Stop";
+            this.timer = setInterval(() => {
+              this.setState({
+                count: this.countUp(this.state.count, 1),
+              });
+            }, 50);
+          } else {
+            clearInterval(this.timer);
+            this.setState({
+              inputText: "Start",
+            });
+          }
+        }
+
+        /*countUp 메서드를 통해 count 속성에 있는 값에 num 즉 1을 더해줌 */
+        countUp(count, num) {
+          return count + num;
+        }
+      }
+
+      //출력하기
+      const container = document.getElementById("root");
+      ReactDOM.render(<App />, container);
+    </script>
+  </body>
+</html>
