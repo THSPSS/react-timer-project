@@ -42,6 +42,11 @@
         }
 
         /*타이머가 활성화 되었을 시에 count 속성 값을 1 만큼 올림*/
+        /* code review : 
+        1) 속성 값을 직접적으로 변경하지 말것
+        2) handleClick 메소드를 조금더 가볍게 만들 수 있음
+        : 기능별로 나누는 것이 테스트 하기에도 좋고 유지 보수에도 좋읍
+        */
         handleClick(event) {
           if (event.target.checked) {
             this.state.inputText = "Stop";
